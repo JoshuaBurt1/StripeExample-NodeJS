@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>StripeNodeJS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles.css" rel="stylesheet" />
+    <script src="script.js" defer></script> <!--Insert event handler script-->
+    <script src="pizza.js" defer></script>
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <header><h2>Cult of Personality Pizza</h2></header>
+    <!-- Part 2: Dynamically add your student id using a p tag and JavaScript. -->
+    <p id="studentId"></p>
+
+    <!-- Part 3: Pizza options-->
+    <div>
+      <label for="customerSelect">Enter customer name </label>
+      <input id="customerSelect" placeholder="" />
+      <p id="customer"></p>
+    </div>
+
+    <div>
+      <label for="sizeSelect">Select Size </label>
+      <select id="sizeSelect">
+        <option value="" disabled selected>Please choose…</option>
+      </select>
+      <p id="size"></p>
+    </div>
+
+    <!--USE IF DEVELOPER WANTS TOPPING DROP DOWN-->
+    <!-- <div>
+      <label for="toppingSelect">Select Topping</label>
+      <select id="toppingSelect">
+        <option value="">Please choose…</option>
+      </select>
+      <p id="toppings"></p>
+    </div> -->
+
+    <div id="toppingSelectC"><label>Select Toppings</label><br /></div>
+    <p id="toppingsC"></p>
+
+    <div>
+      <label for="dipSelect">Select Dip</label>
+      <select id="dipSelect">
+        <option value="" disabled selected>Please choose…</option>
+      </select>
+      <p id="dips"></p>
+    </div>
+
+    <div>
+      <label for="sideSelect">Select Side</label>
+      <select id="sideSelect">
+        <option value="" disabled selected>Please choose…</option>
+      </select>
+      <p id="sides"></p>
+    </div>
+
+    <div>
+      <button class="order">View Order</button>
+      <button class="clear">Clear</button>
+      <button>Checkout</button>
+    </div>
+    <p id="message"></p>
+    <p id="output"></p>
+    <p id="price"></p>
+
+    <button id="toggleButton">Order History</button>
+    <div id="history">
+      <h4>Order History</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Order Number |</th>
+            <th>Order Date |</th>
+            <th>Customer |</th>
+            <th>Pizza size |</th>
+            <th>Toppings |</th>
+            <th>Dip |</th>
+            <th>Side order |</th>
+            <th>Sale |</th>
+            <th>Total Sales |</th>
+            <th>Average Sales |</th>
+            <th>Rate of Change</th>
+            <!-- Add more headers for other order details -->
+          </tr>
+        </thead>
+        <tbody id="orderTableBody">
+          <!-- Table rows will be dynamically generated here -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

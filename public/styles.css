@@ -1,0 +1,104 @@
+body {
+  margin: 2%;
+  font-size: 150%;
+  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+/**/
+
+header p {
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* section styles */
+section {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: repeat(3, 700px);
+  grid-gap: 25px 1px;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+}
+/*creates evenly sized articles*/
+section > * {
+  flex: 0 0 auto;
+}
+section article {
+  border: 1px solid black;
+  box-shadow: 0 2px 14px grey;
+  padding: 1.5%;
+}
+article img {
+  margin: auto;
+  display: block;
+  height: 40%;
+}
+section p {
+  margin: 5px 0;
+}
+
+section ul {
+  margin-top: 0;
+}
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  background-image: url(https://static.wixstatic.com/media/ba2cd3_ec56b34e45e24ad1ad14a165a939edd9~mv2.jpg/v1/fill/w_1381,h_845,al_b,q_85,enc_auto/ba2cd3_ec56b34e45e24ad1ad14a165a939edd9~mv2.jpg);
+  background-size: cover;
+  color: white;
+  font-size: 12px;
+}
+label {
+  font-family: "Times New Roman", Times, serif;
+}
+p {
+  color: limegreen;
+}
+#database {
+  color: white;
+}
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  margin-right: 430px;
+  color: limegreen;
+}
+tr {
+  font-size: small;
+}
+th {
+  font-weight: 8;
+}
+
+#toggleButton {
+  margin-bottom: 10px;
+}
+
+#history {
+  display: none;
+  margin-inline-start: 2px;
+  margin-inline-end: 2px;
+  padding-block-start: 0.35em;
+  padding-inline-start: 0.75em;
+  padding-inline-end: 0.75em;
+  padding-block-end: 0.625em;
+  min-inline-size: min-content;
+  border-width: 2px;
+  border-style: groove;
+  border-color: rgb(192, 192, 192);
+  border-image: initial;
+  width: 49%;
+}
