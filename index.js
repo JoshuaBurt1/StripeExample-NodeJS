@@ -1,4 +1,3 @@
-//server-side code
 require("dotenv").config();
 
 const express = require("express");
@@ -14,37 +13,30 @@ app.use(
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const storeItems = new Map([
-  [1, { priceInCents: 10000, name: "Test 1" }],
-  [2, { priceInCents: 2000, name: "Test 2" }],
-  [3, { priceInCents: 300, name: "Test 3" }],
-]);
-
 app.post("/checkout", async (req, res) => {
   try {
-    const session = await stripe.checkout.sessions.create({ //Stripe checkout function
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      line_items: req.body.items.map(item => {
-        const storeItem = storeItems.get(item.id)
-        return {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: storeItem.name,
-            },
-            unit_amount: storeItem.priceInCents,
+      line_items: req.body.items.map(item => ({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name, // Assuming your client-side sends the name
           },
-          quantity: item.quantity,
-        }
-      }),
-      success_url: `http://localhost:3000/success.html`, // on Stripe page after successful form input requirements
-      cancel_url: `http://localhost:3000/index.html`, // on Stripe page: back to index
-    })
+          unit_amount: item.priceInCents,
+        },
+        quantity: item.quantity,
+      })),
+      success_url: `http://localhost:3000/success.html`,
+      cancel_url: `http://localhost:3000/index.html`,
+    });
     res.json({ url: session.url });
   } catch (e) {
-    res.status(500).json({ error: e.message }); 
+    res.status(500).json({ error: e.message });
   }
-})
+});
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Server is running on http://localhost:3000");
+});

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="styles.css" rel="stylesheet" />
     <script src="script.js" defer></script> <!--Insert event handler script-->
-    <script src="pizza.js" defer></script>
+    <script src="pizzaObject.js" defer></script>
     <script src="index.js" defer></script>
   </head>
   <body>
@@ -60,7 +60,7 @@
     <div>
       <button class="order">View Order</button>
       <button class="clear">Clear</button>
-      <button>Checkout</button>
+      <button id="pay">Checkout</button>
     </div>
     <p id="message"></p>
     <p id="output"></p>
@@ -82,7 +82,6 @@
             <th>Sale |</th>
             <th>Total Sales |</th>
             <th>Average Sales |</th>
-            <th>Rate of Change</th>
             <!-- Add more headers for other order details -->
           </tr>
         </thead>

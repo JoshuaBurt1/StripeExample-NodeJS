@@ -6,7 +6,9 @@ const output = document.querySelector("#output");
 const message = document.querySelector("#message");
 const order = document.querySelector(".order");
 const clear = document.querySelector(".clear");
-var dataArray = [];
+const button = document.querySelector("#pay");
+
+var pizzaCostArray = [];
 var orderCount = 0;
 var sum = 0;
 var totalSales = 0;
@@ -85,33 +87,31 @@ function enterOrder() {
   let customerPizza = new CustomPizza(
     customers.textContent.replace(/[0-9$.]+/i, ""),
     size.textContent.replace(/[0-9$.]+/i, ""),
-    // toppings.textContent.replace(/[0-9$.]+/i, ""),
     toppingsC.textContent.replace(/[\d$,]+/g, ""),
     dips.textContent.replace(/[0-9$.]+/i, ""),
     sides.textContent.replace(/[0-9$.]+/i, "")
   );
-  //uses constant variable from index.js
-  customerPizza.consoleVal(); //prints to console
-  customerPizza.description(); //prints to webpage
 
-  //ORDER HISTORY DATA - on each Order button click, add to table (database)
-  dataArray = [
+  customerPizza.consoleVal();
+  customerPizza.description();
+
+  // ORDER HISTORY DATA - on each Order button click, add to table (database)
+  pizzaCostArray = [
     orderCount,
     customers.textContent,
-    items[0],
-    items[1],
-    items[2],
-    items[3],
+    items[0], // pizza size cost
+    items[1], // topping cost
+    items[2], // dip cost
+    items[3], // side cost
     sum,
   ];
-  //console.log(items.textContent);
-  //console.log(dataArray.textContent);
+
   if (filledOrder === true) {
     const tableBody = document.getElementById("orderTableBody");
     const row = tableBody.insertRow();
 
     const orderNumberCell = row.insertCell();
-    orderNumberCell.textContent = dataArray[0];
+    orderNumberCell.textContent = pizzaCostArray[0];
 
     const date = row.insertCell();
     const currentDate = new Date();
@@ -119,25 +119,25 @@ function enterOrder() {
     date.textContent = currentDate.toLocaleDateString(undefined, options);
 
     const customerCell = row.insertCell();
-    customerCell.textContent = dataArray[1];
+    customerCell.textContent = pizzaCostArray[1];
 
     const pizzaSize = row.insertCell();
-    pizzaSize.textContent = dataArray[2];
+    pizzaSize.textContent = pizzaCostArray[2];
 
     const pizzaToppings = row.insertCell();
-    pizzaToppings.textContent = dataArray[3];
+    pizzaToppings.textContent = pizzaCostArray[3];
 
     const pizzaDip = row.insertCell();
-    pizzaDip.textContent = dataArray[4];
+    pizzaDip.textContent = pizzaCostArray[4];
 
     const pizzaSide = row.insertCell();
-    pizzaSide.textContent = dataArray[5];
+    pizzaSide.textContent = pizzaCostArray[5];
 
     const pizzaSum = row.insertCell();
-    pizzaSum.textContent = dataArray[6];
+    pizzaSum.textContent = pizzaCostArray[6];
 
     const pizzaTotal = row.insertCell();
-    totalSales += dataArray[6];
+    totalSales += pizzaCostArray[6];
     pizzaTotal.textContent = totalSales;
 
     const pizzaAverage = row.insertCell();
@@ -145,28 +145,55 @@ function enterOrder() {
     pizzaAverage.textContent = averageSale;
     sum = 0;
     filledOrder = false;
-
-    //calculate regression equation (multiple linear regression for each variable: size, topping, dip, side)
-    const pizzaSaleFormula = row.insertCell();
-    pizzaSaleFormula.textContent = 0;
-
-    //projected sales for day based on regression equation & historical data
-    const projectedSales = row.insertCell();
-    projectedSales.textContent = 0;
-
-    //Daily Sale Rate of change --> value & sign (+ or -)
-    const pizzaRate = row.insertCell();
-    pizzaRate.textContent = 0;
-
-    //variance
-
-    //Other variables:
-    //Price Variance inflation factor (VIF): https://www.investopedia.com/terms/v/variance-inflation-factor.asp
-    //Topping popularity
-    //Orders per day, Hourly rate of production
-
-    //javascript --> node.js --> MySQL (to save data) https://hevodata.com/learn/javascript-mysql/
   }
+  // Call handlePayment and pass pizzaCostArray as an argument
+
+  handlePayment(pizzaCostArray);
+}
+
+// Define handlePayment to accept an argument
+// Define handlePayment to accept an argument
+function handlePayment(pizzaCostArray) {
+  console.log("Inside handlePayment - pizzaCostArray:", pizzaCostArray);
+
+  if (!pizzaCostArray || pizzaCostArray.length < 7) {
+    console.error("Error: Complete the form before placing your order.");
+    return;
+  }
+
+  // Map the pizzaCostArray elements to the correct orderItems format
+  const orderItems = [
+    { id: 2, name: "Pizza Size", priceInCents: pizzaCostArray[2] * 100, quantity: 1 }, // pizza size cost
+    { id: 3, name: "Topping", priceInCents: pizzaCostArray[3] * 100, quantity: 1 }, // topping cost
+    { id: 4, name: "Dip", priceInCents: pizzaCostArray[4] * 100, quantity: 1 }, // dip cost
+    { id: 5, name: "Side", priceInCents: pizzaCostArray[5] * 100, quantity: 1 }, // side cost
+  ];
+
+  console.log("Formatted orderItems:", orderItems);
+
+  // Log the request payload before sending it
+  console.log("Request payload:", JSON.stringify({ items: orderItems }));
+
+  // Continue with the rest of your code
+  fetch("http://localhost:3000/checkout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      items: orderItems,
+    }),
+  })
+    .then(res => {
+      if (res.ok) return res.json();
+      return res.json().then(json => Promise.reject(json));
+    })
+    .then(({ url }) => {
+      window.location = url;
+    })
+    .catch(e => {
+      console.error(e.error);
+    });
 }
 
 function clearOrder() {
@@ -199,3 +226,4 @@ toggleButton.addEventListener("click", () => {
 // event listeners for on click event of buttons and select
 order.addEventListener("click", enterOrder);
 clear.addEventListener("click", clearOrder);
+button.addEventListener("click", handlePayment);

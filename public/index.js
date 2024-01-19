@@ -1,5 +1,4 @@
 //tags
-const studentId = document.getElementById("studentId");
 const customers = document.getElementById("customer");
 const size = document.getElementById("size");
 //const toppings = document.getElementById("toppings");
@@ -17,10 +16,8 @@ const toppingSelect = document.querySelector("#toppingSelect");
 const dipSelect = document.querySelector("#dipSelect");
 const sideSelect = document.querySelector("#sideSelect");
 
-// Part 2:
-studentId.textContent = "200523537";
 
-// Part 3:
+//Client-side JS Functions
 function customerF() {
   console.log(customers.value);
 }
@@ -43,39 +40,7 @@ function addSize() {
       sizeSelect.appendChild(option);
     }
   }
-  //A.i. equivalent sizeSelect.addEventListener("change", function () {
-  // for (var j = 0; j < sizeSelect.length; j++) {
-  //   if (sizeSelect[j].selected) {
-  //     const selectedSize = sizeSelect.value.split(" : $");
-  //     size.textContent = selectedSize[0] + " $" + selectedSize[1];
-  //     console.log(size.textContent);
-  //     items[0] = Number(selectedSize[1]);
-  //     console.log(items);
-  //   }
-  // }
 }
-
-//TOPPINGLIST: function to populate toppingList down-down menu
-// function addTopping() {
-//   var toppingList = [
-//     "none : $0",
-//     "olive : $1",
-//     "pepper : $2",
-//     "pineapple : $2",
-//     "ham : $3",
-//     "pepperoni : $3",
-//     "bacon : $4",
-//     "extra-cheese : $3",
-//   ];
-//   if (toppingSelect.length <= toppingList.length) {
-//     for (let i = 0; i < toppingList.length; i++) {
-//       var option = document.createElement("option");
-//       option.textContent = toppingList[i];
-//       option.id = toppingList[i];
-//       toppingSelect.appendChild(option);
-//     }
-//   }
-// }
 
 //TOPPINGLIST: function to populate toppingListC checkBoxes
 const toppingSelectC = document.getElementById("toppingSelectC");
