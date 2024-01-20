@@ -1,7 +1,6 @@
 //tags
 const customers = document.getElementById("customer");
 const size = document.getElementById("size");
-//const toppings = document.getElementById("toppings");
 const toppingsC = document.getElementById("toppingsC");
 const dips = document.getElementById("dips");
 const sides = document.getElementById("sides");
@@ -15,7 +14,6 @@ const sizeSelectP = document.querySelector("#sizeSelectP");
 const toppingSelect = document.querySelector("#toppingSelect");
 const dipSelect = document.querySelector("#dipSelect");
 const sideSelect = document.querySelector("#sideSelect");
-
 
 //Client-side JS Functions
 function customerF() {
@@ -109,7 +107,6 @@ function addToppingC() {
   for (let k = 0; k < toppingString.length; k++) {
     toppingWebP += toppingString[k].replace(/[:]+/i, "");
   }
-  //console.log(toppingWebP);
   toppingsC.textContent = toppingWebP;
   //Topping sum calculation
   var toppingNumArray = []; //numbers
@@ -121,9 +118,7 @@ function addToppingC() {
   for (let m2 = 0; m2 < numArray.length; m2++) {
     toppingSum += parseInt(numArray[m2]);
   }
-  //console.log(toppingSum);
   items[1] = toppingSum;
-  //console.log(items);
 }
 
 //DIPLIST: function to populate dipList
@@ -170,12 +165,9 @@ function addSide() {
 }
 
 // Part 6: Create a class for the Pizza object, using the parameters from the order form you just created.
-// event listeners for on click event of buttons and select
 sizeSelect.addEventListener("click", addSize);
-//toppingSelect.addEventListener("click", addTopping);
 dipSelect.addEventListener("click", addDip);
 sideSelect.addEventListener("click", addSide);
-//displayOrders.addEventListener("click", displayHistory//);
 
 customerSelect.addEventListener("change", function () {
   const selectedCustomer = customerSelect.value;
@@ -188,15 +180,6 @@ sizeSelect.addEventListener("change", function () {
   //console.log(size.textContent);
   items[0] = Number(selectedSize[1]);
 });
-
-//USE IF DEVELOPER WANTS TOPPING DROP DOWN MENU
-// toppingSelect.addEventListener("change", function () {
-//   const selectedTopping = toppingSelect.value.split(" : $");
-//   toppings.textContent = selectedTopping[0] + " $" + selectedTopping[1];
-//   console.log(toppings.textContent);
-//   items[1] = Number(selectedTopping[1]);
-//   console.log(items);
-// });
 
 //topping checkBox event listeners
 ToppingCB0.addEventListener("click", addToppingC);

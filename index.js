@@ -11,6 +11,7 @@ app.use(
   })
 );
 
+//DEPLOYMENT TO HOSTING:
 //when deploying to render, all instances of "http://localhost:3000" --> https://your_name_here.onrender.com
 //enter STRIPE_SECRET_KEY in deployment step --> no quotes around secret key
 

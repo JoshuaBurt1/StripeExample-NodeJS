@@ -1,19 +1,14 @@
-//tags
-const history = document.getElementById("history");
-const toggleButton = document.getElementById("toggleButton");
 //fields
 const output = document.querySelector("#output");
 const message = document.querySelector("#message");
-const order = document.querySelector(".order");
+const view = document.querySelector(".view");
 const clear = document.querySelector(".clear");
-const button = document.querySelector("#pay");
+const pay = document.querySelector(".pay");
 
 var pizzaCostArray = [];
-var orderCount = 0;
 var sum = 0;
 var totalSales = 0;
 var averageSale = 0;
-var filledOrder = false;
 
 /* Pizza constructor*/
 class Pizza {
@@ -73,16 +68,26 @@ class CustomPizza extends Pizza {
           "You ordered nothing. Check your order and try again";
       } else {
         output.textContent = `${this.customer}'s order: a ${this.size} ${this.toppingC} pizza with ${this.dip} dip, & a ${this.side} side.`;
-        filledOrder = true;
-        orderCount++;
       }
       price.textContent = "Total cost: $" + sum;
     }
   }
 }
 
+function viewOrder(){
+  let customerPizza = new CustomPizza(
+    customers.textContent.replace(/[0-9$.]+/i, ""),
+    size.textContent.replace(/[0-9$.]+/i, ""),
+    toppingsC.textContent.replace(/[\d$,]+/g, ""),
+    dips.textContent.replace(/[0-9$.]+/i, ""),
+    sides.textContent.replace(/[0-9$.]+/i, "")
+  );
+  
+  customerPizza.consoleVal();
+  customerPizza.description();
+}
+
 //function that creates an instance of CustomPizza using user selected values
-//textContent is filtered to only letters via regex
 function enterOrder() {
   let customerPizza = new CustomPizza(
     customers.textContent.replace(/[0-9$.]+/i, ""),
@@ -91,13 +96,8 @@ function enterOrder() {
     dips.textContent.replace(/[0-9$.]+/i, ""),
     sides.textContent.replace(/[0-9$.]+/i, "")
   );
-
-  customerPizza.consoleVal();
-  customerPizza.description();
-
-  // ORDER HISTORY DATA - on each Order button click, add to table (database)
+  // ORDER DATA
   pizzaCostArray = [
-    orderCount,
     customers.textContent,
     items[0], // pizza size cost
     items[1], // topping cost
@@ -105,49 +105,7 @@ function enterOrder() {
     items[3], // side cost
     sum,
   ];
-
-  if (filledOrder === true) {
-    const tableBody = document.getElementById("orderTableBody");
-    const row = tableBody.insertRow();
-
-    const orderNumberCell = row.insertCell();
-    orderNumberCell.textContent = pizzaCostArray[0];
-
-    const date = row.insertCell();
-    const currentDate = new Date();
-    const options = { year: "numeric", month: "numeric", day: "numeric" };
-    date.textContent = currentDate.toLocaleDateString(undefined, options);
-
-    const customerCell = row.insertCell();
-    customerCell.textContent = pizzaCostArray[1];
-
-    const pizzaSize = row.insertCell();
-    pizzaSize.textContent = pizzaCostArray[2];
-
-    const pizzaToppings = row.insertCell();
-    pizzaToppings.textContent = pizzaCostArray[3];
-
-    const pizzaDip = row.insertCell();
-    pizzaDip.textContent = pizzaCostArray[4];
-
-    const pizzaSide = row.insertCell();
-    pizzaSide.textContent = pizzaCostArray[5];
-
-    const pizzaSum = row.insertCell();
-    pizzaSum.textContent = pizzaCostArray[6];
-
-    const pizzaTotal = row.insertCell();
-    totalSales += pizzaCostArray[6];
-    pizzaTotal.textContent = totalSales;
-
-    const pizzaAverage = row.insertCell();
-    averageSale = totalSales / orderCount;
-    pizzaAverage.textContent = averageSale;
-    sum = 0;
-    filledOrder = false;
-  }
   // Call handlePayment and pass pizzaCostArray as an argument
-
   handlePayment(pizzaCostArray);
 }
 
@@ -156,17 +114,17 @@ function enterOrder() {
 function handlePayment(pizzaCostArray) {
   console.log("Inside handlePayment - pizzaCostArray:", pizzaCostArray);
 
-  if (!pizzaCostArray || pizzaCostArray.length < 7) {
+  if (!pizzaCostArray || pizzaCostArray.length < 6) {
     console.error("Error: Complete the form before placing your order.");
     return;
   }
 
   // Map the pizzaCostArray elements to the correct orderItems format
   const orderItems = [
-    { id: 2, name: "Pizza Size", priceInCents: pizzaCostArray[2] * 100, quantity: 1 }, // pizza size cost
-    { id: 3, name: "Topping", priceInCents: pizzaCostArray[3] * 100, quantity: 1 }, // topping cost
-    { id: 4, name: "Dip", priceInCents: pizzaCostArray[4] * 100, quantity: 1 }, // dip cost
-    { id: 5, name: "Side", priceInCents: pizzaCostArray[5] * 100, quantity: 1 }, // side cost
+    { id: 1, name: "Pizza Size", priceInCents: pizzaCostArray[1] * 100, quantity: 1 }, // pizza size cost
+    { id: 2, name: "Topping", priceInCents: pizzaCostArray[2] * 100, quantity: 1 }, // topping cost
+    { id: 3, name: "Dip", priceInCents: pizzaCostArray[3] * 100, quantity: 1 }, // dip cost
+    { id: 4, name: "Side", priceInCents: pizzaCostArray[4] * 100, quantity: 1 }, // side cost
   ];
 
   console.log("Formatted orderItems:", orderItems);
@@ -215,15 +173,7 @@ function clearOrder() {
   console.log(size.textContent);
 }
 
-toggleButton.addEventListener("click", () => {
-  if (history.style.display === "block") {
-    history.style.display = "none";
-  } else {
-    history.style.display = "block";
-  }
-});
-
 // event listeners for on click event of buttons and select
-order.addEventListener("click", enterOrder);
+view.addEventListener("click", viewOrder);
 clear.addEventListener("click", clearOrder);
-button.addEventListener("click", handlePayment);
+pay.addEventListener("click", enterOrder);
