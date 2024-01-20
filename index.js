@@ -11,8 +11,7 @@ app.use(
   })
 );
 
-//const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const stripe = require("stripe")(STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 app.post("/checkout", async (req, res) => {
   try {
