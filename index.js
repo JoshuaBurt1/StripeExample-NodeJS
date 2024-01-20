@@ -7,11 +7,12 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(
   cors({
-    origin: "https://cult-of-pizza.onrender.com",
+    origin: "http://localhost:3000",
   })
 );
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+//const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
 app.post("/checkout", async (req, res) => {
   try {
@@ -28,8 +29,8 @@ app.post("/checkout", async (req, res) => {
         },
         quantity: item.quantity,
       })),
-      success_url: `https://cult-of-pizza.onrender.com/success.html`,
-      cancel_url: `https://cult-of-pizza.onrender.com/index.html`,
+      success_url: `http://localhost:3000/success.html`,
+      cancel_url: `http://localhost:3000/index.html`,
     });
     res.json({ url: session.url });
   } catch (e) {
@@ -38,5 +39,5 @@ app.post("/checkout", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Server is running on https://cult-of-pizza.onrender.com");
+  console.log("Server is running on http://localhost:3000");
 });
