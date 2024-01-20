@@ -175,7 +175,7 @@ function handlePayment(pizzaCostArray) {
   console.log("Request payload:", JSON.stringify({ items: orderItems }));
 
   // Continue with the rest of your code
-  fetch("http://localhost:3000/checkout", {
+  fetch("https://cult-of-pizza.onrender.com/checkout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
