@@ -1,24 +1,24 @@
 //tags
-const customers = document.getElementById("customer");
-const size = document.getElementById("size");
-const toppingsC = document.getElementById("toppingsC");
-const dips = document.getElementById("dips");
-const sides = document.getElementById("sides");
-const details = document.getElementById("details");
 const price = document.getElementById("price");
 const items = [0, 0, 0, 0];
 //fields
-const customerSelect = document.querySelector("#customerSelect");
-const sizeSelect = document.querySelector("#sizeSelect");
-const sizeSelectP = document.querySelector("#sizeSelectP");
 const toppingSelect = document.querySelector("#toppingSelect");
 const dipSelect = document.querySelector("#dipSelect");
 const sideSelect = document.querySelector("#sideSelect");
 
-//Client-side JS Functions
-function customerF() {
-  console.log(customers.value);
-}
+const toppingSelectC = document.getElementById("toppingSelectC");
+const toppingArray = [];
+const toppingListC = [
+  "none : $0",
+  "olive : $1",
+  "pepper : $2",
+  "pineapple : $2",
+  "ham : $3",
+  "pepperoni : $3",
+  "bacon : $4",
+  "extra cheese : $5",
+];
+
 
 //SIZE: function to populate size drop-down menu
 function addSize() {
@@ -40,84 +40,40 @@ function addSize() {
   }
 }
 
-//TOPPINGLIST: function to populate toppingListC checkBoxes
-const toppingSelectC = document.getElementById("toppingSelectC");
-const toppingArray = [];
-var label = document.getElementById("label");
+// Toppings: Create and append checkBox buttons
+toppingListC.forEach((topping, index) => {
+  const checkBox = document.createElement("input");
+  checkBox.type = "checkbox";
+  checkBox.value = topping.toLowerCase();
+  checkBox.id = index;
 
-var toppingListC = [
-  "none : $0",
-  "olive : $1",
-  "pepper : $2",
-  "pineapple : $2",
-  "ham : $3",
-  "pepperoni : $3",
-  "bacon : $4",
-  "extra cheese : $5",
-];
-// Create a new checkBox button element
-if (toppingListC.length <= toppingListC.length) {
-  for (let i = 0; i < toppingListC.length; i++) {
-    var checkBox = document.createElement("input");
-    checkBox.type = "checkbox";
-    checkBox.value = toppingListC[i].toLowerCase(); // Use the lowercase of the fruit name as the value
-    checkBox.id = i;
-    // Create a label for the checkBox button
-    label = document.createElement("label");
-    label.textContent = toppingListC[i];
-    // Add the checkBox button and label to the container
-    toppingSelectC.appendChild(checkBox);
-    toppingSelectC.appendChild(label);
-    toppingSelectC.appendChild(document.createElement("br")); // Line break
-  }
-}
-//these are createElement checkBoxes, constants must be defined here after they are created via previous code
-const ToppingCB0 = document.getElementById("0");
-const ToppingCB1 = document.getElementById("1");
-const ToppingCB2 = document.getElementById("2");
-const ToppingCB3 = document.getElementById("3");
-const ToppingCB4 = document.getElementById("4");
-const ToppingCB5 = document.getElementById("5");
-const ToppingCB6 = document.getElementById("6");
-const ToppingCB7 = document.getElementById("7");
-//adding to and from topping array
+  const label = document.createElement("label");
+  label.textContent = topping;
+
+  toppingSelectC.appendChild(checkBox);
+  toppingSelectC.appendChild(label);
+  toppingSelectC.appendChild(document.createElement("br"));
+});
+
+// Get references to checkBox elements
+const toppingCBs = Array.from({ length: toppingListC.length }, (_, index) =>
+  document.getElementById(index.toString())
+);
+
+// Add or remove toppings from the array
 function addToppingC() {
-  //remove from array if box not checked
-  for (let i = 0; i < toppingListC.length; i++) {
-    //if unchecked boxes exist
-    if (!document.getElementById(i).checked) {
-      toppingArray.splice(document.getElementById(i), toppingArray.length); //removes unchecked elements (id's) from toppingArray
-    } // if all are checked
-    else {
-      toppingArray.splice(document.getElementById(i), toppingListC.length); //prevents double adding, as previous if statement will be skipped without else
+  toppingArray.length = 0; // Clear the array
+  for (let i = 0; i < toppingCBs.length; i++) {
+    if (toppingCBs[i].checked) {
+      toppingArray.push(" " + toppingCBs[i].value);
     }
   }
-  //add to array if box checked
-  for (let j = 0; j < toppingListC.length; j++) {
-    if (document.getElementById(j).checked) {
-      toppingArray.push(" " + document.getElementById(j).value); //adds all checked boxes to constant array (at end)
-    }
-  }
-  console.log(toppingArray.length);
   console.log("ToppingArray: " + toppingArray);
-  //String & number manipulations
-  var toppingString = toppingArray.toString();
-  //Topping web page string
-  var toppingWebP = [];
-  for (let k = 0; k < toppingString.length; k++) {
-    toppingWebP += toppingString[k].replace(/[:]+/i, "");
-  }
-  toppingsC.textContent = toppingWebP;
-  //Topping sum calculation
-  var toppingNumArray = []; //numbers
-  var toppingSum = 0;
-  for (let m = 0; m < toppingString.length; m++) {
-    toppingNumArray += toppingString[m].replace(/[a-zA-Z$\s/g.:]+/i, "");
-  }
-  var numArray = toppingNumArray.split(",");
-  for (let m2 = 0; m2 < numArray.length; m2++) {
-    toppingSum += parseInt(numArray[m2]);
-  }
+  // String manipulations
+  const toppingString = toppingArray.toString().replace(/[:]+/g, "");
+  // Topping sum calculation
+  const numArray = toppingString.split(/[a-zA-Z$\s.]+/).filter(Boolean);
+  const toppingSum = numArray.reduce((acc, num) => acc + parseInt(num), 0);
   items[1] = toppingSum;
 }
 
@@ -169,37 +125,155 @@ sizeSelect.addEventListener("click", addSize);
 dipSelect.addEventListener("click", addDip);
 sideSelect.addEventListener("click", addSide);
 
-customerSelect.addEventListener("change", function () {
-  const selectedCustomer = customerSelect.value;
-  //console.log(selectedCustomer);
-  customers.textContent = selectedCustomer;
-});
 sizeSelect.addEventListener("change", function () {
   const selectedSize = sizeSelect.value.split(" : $");
-  size.textContent = selectedSize[0] + " $" + selectedSize[1];
   //console.log(size.textContent);
   items[0] = Number(selectedSize[1]);
 });
 
-//topping checkBox event listeners
-ToppingCB0.addEventListener("click", addToppingC);
-ToppingCB1.addEventListener("click", addToppingC);
-ToppingCB2.addEventListener("click", addToppingC);
-ToppingCB3.addEventListener("click", addToppingC);
-ToppingCB4.addEventListener("click", addToppingC);
-ToppingCB5.addEventListener("click", addToppingC);
-ToppingCB6.addEventListener("click", addToppingC);
-ToppingCB7.addEventListener("click", addToppingC);
+toppingCBs.forEach((checkBox) => {
+  checkBox.addEventListener("click", addToppingC);
+});
 
 dipSelect.addEventListener("change", function () {
   const selectedDip = dipSelect.value.split(" : $");
-  dips.textContent = selectedDip[0] + " $" + selectedDip[1];
-  //console.log(dips.textContent);
   items[2] = Number(selectedDip[1]);
 });
 sideSelect.addEventListener("change", function () {
   const selectedSide = sideSelect.value.split(" : $");
-  sides.textContent = selectedSide[0] + " $" + selectedSide[1];
-  //console.log(sides.textContent);
   items[3] = Number(selectedSide[1]);
+});
+
+//fields
+const message = document.querySelector("#message");
+const view = document.querySelector(".view");
+const clear = document.querySelector(".clear");
+
+var pizzaCostArray = [];
+
+/* Pizza constructor*/
+class Pizza {
+  customer;
+  size;
+  toppingC;
+  dip;
+  side;
+
+  constructor(customer, size, toppingC, dip, side) {
+    this.customer = customer;
+    this.size = size;
+    this.toppingC = toppingC;
+    this.dip = dip;
+    this.side = side;
+  }
+  //messages to assist customer
+  description() {
+    let sum = 0;
+
+    if (this.customer == "") {
+      message.textContent = "Please enter your name";
+    } else if (this.size == "") {
+      message.textContent = "Please select a size";
+    } else if (this.toppingC == "") {
+      message.textContent = "Please select a topping";
+    } else if (this.dip == "") {
+      message.textContent = "Please select a dip";
+    } else if (this.side == "") {
+      message.textContent = "Please select a side";
+    } else {
+      message.textContent = "";
+      for (let i = 0; i < items.length; i += 1) {
+        sum += items[i];
+      }
+      if (sum == 0) {
+        message.textContent = "You ordered nothing. Check your order and try again";
+      } else {
+        message.textContent = `${this.customer}'s order: a ${this.size} ${this.toppingC} pizza with ${this.dip} dip, & a ${this.side} side.`;
+      }
+      price.textContent = "Total cost: $" + sum;
+    }
+  }
+}
+
+var customerPizza;
+//this Pizza object needs to be instantiated for description() messages to occur in <p id="message"></p>
+function viewOrder() {
+  let customerName = document.getElementById("customerSelect").value;
+  let pizzaSize = document.getElementById("sizeSelect").value;
+  // Retrieve selected toppings
+  let selectedToppings = [];
+  let toppingSelectC = document.getElementById("toppingSelectC");
+  let toppingOptions = toppingSelectC.querySelectorAll('input[type="checkbox"]:checked');
+  toppingOptions.forEach(option => {
+    // Remove amounts from toppings
+    let toppingLabel = option.nextElementSibling.textContent;
+    let toppingName = toppingLabel.replace(/:\s*\$[\d.]+/, "");
+    selectedToppings.push(toppingName);
+  });
+  let pizzaToppings = selectedToppings.join(", ");
+  let pizzaDip = document.getElementById("dipSelect").value;
+  let pizzaSide = document.getElementById("sideSelect").value;
+  // Remove amounts from other values
+  customerName = customerName.replace(/:\s*\$[\d.]+/, "");
+  pizzaSize = pizzaSize.replace(/:\s*\$[\d.]+/, "");
+  pizzaDip = pizzaDip.replace(/:\s*\$[\d.]+/, "");
+  pizzaSide = pizzaSide.replace(/:\s*\$[\d.]+/, "");
+  customerPizza = new Pizza(customerName, pizzaSize, pizzaToppings, pizzaDip, pizzaSide);
+  customerPizza.description();
+}
+
+//function that creates an instance of Pizza using user selected values
+function enterOrder() {
+  pizzaCostArray = [
+    items[0], // pizza size cost
+    items[1], // topping cost
+    items[2], // dip cost
+    items[3], // side cost
+  ];
+  // Map the pizzaCostArray elements to the correct orderItems format
+  const orderItems = [
+    { id: 1, name: "Pizza Size", priceInCents: pizzaCostArray[0] * 100, quantity: 1 }, // pizza size cost
+    { id: 2, name: "Topping", priceInCents: pizzaCostArray[1] * 100, quantity: 1 }, // topping cost
+    { id: 3, name: "Dip", priceInCents: pizzaCostArray[2] * 100, quantity: 1 }, // dip cost
+    { id: 4, name: "Side", priceInCents: pizzaCostArray[3] * 100, quantity: 1 }, // side cost
+  ];
+
+  // Continue with the rest of your code
+  fetch("https://cult-of-pizza.onrender.com", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      items: orderItems,
+    }),
+  })
+    .then(res => {
+      if (res.ok) return res.json();
+      return res.json().then(json => Promise.reject(json));
+    })
+    .then(({ url }) => {
+      window.location = url;
+    })
+    .catch(e => {
+      console.error(e.error);
+    });
+}
+
+function clearOrder() {
+  toppingCBs.forEach((checkBox) => {
+    checkBox.checked = false;
+  });
+  message.textContent = "";
+  price.textContent = "";
+}
+
+// event listeners for on click event of buttons and select
+view.addEventListener("click", viewOrder);
+clear.addEventListener("click", clearOrder);
+pizzaForm.addEventListener("submit", function (event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
+  // Call enterOrder function to create the Pizza instance
+  enterOrder();
 });
