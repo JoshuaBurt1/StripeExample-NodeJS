@@ -2,7 +2,8 @@
 const price = document.getElementById("price");
 const items = [0, 0, 0, 0];
 //fields
-const toppingSelect = document.querySelector("#toppingSelect");
+const pizzaForm = document.querySelector("#pizzaForm");
+const sizeSelect = document.querySelector("#sizeSelect");
 const dipSelect = document.querySelector("#dipSelect");
 const sideSelect = document.querySelector("#sideSelect");
 

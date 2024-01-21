@@ -1,4 +1,4 @@
-# eCommerce Example 1
+# eCommerce Example 1a (Express)
 basic store - multi-option product - payment via Stripe <br>
 https://cult-of-pizza.onrender.com/index.html
 
