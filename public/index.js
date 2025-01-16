@@ -240,7 +240,7 @@ function enterOrder() {
   ];
 
   // Continue with the rest of your code
-  fetch("https://pizza-store-example.onrender.com/checkout", {
+  fetch("https://pizza-store-example.onrender.com/checkout", { // ### Adjust url as needed ###
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(
   cors({
-    origin: "https://pizza-store-example.onrender.com",
+    origin: "https://pizza-store-example.onrender.com", // ### Adjust url as needed ###
   })
 );
 
@@ -27,14 +27,14 @@ app.post("/checkout", async (req, res) => {
         price_data: {
           currency: "usd",
           product_data: {
-            name: item.name, // Assuming your client-side sends the name
+            name: item.name,
           },
           unit_amount: item.priceInCents,
         },
         quantity: item.quantity,
       })),
-      success_url: `https://pizza-store-example.onrender.com/success.html`,
-      cancel_url: `https://pizza-store-example.onrender.com/index.html`,
+      success_url: `https://pizza-store-example.onrender.com/success.html`, // ### Adjust url as needed ###
+      cancel_url: `https://pizza-store-example.onrender.com/index.html`, // ### Adjust url as needed ###
     });
     res.json({ url: session.url });
   } catch (e) {
@@ -43,5 +43,5 @@ app.post("/checkout", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Server is running on https://pizza-store-example.onrender.com");
+  console.log("Server is running on https://pizza-store-example.onrender.com"); // ### Adjust url as needed ###
 });
