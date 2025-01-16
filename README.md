@@ -11,7 +11,7 @@ https://pizza-store-example.onrender.com/index.html
 STRIPE_SECRET_KEY="YOUR_SECRET_KEY" <br>
 * In terminal: node index.js
 
-# DEPLOYMENT TO HOSTING SITE: <br>
+# Deployment to hosting site: <br>
 - when deploying to render, all instances of "http://localhost:3000" --> https://pizza-store-example.onrender.com
 - when deploying on a local instance, all instances of "https://pizza-store-example.onrender.com" --> "http://localhost:3000"
 - enter STRIPE_SECRET_KEY in deployment step --> no quotes around secret key
