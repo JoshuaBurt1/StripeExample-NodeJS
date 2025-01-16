@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(
   cors({
-    origin: "https://pizza-store-example.onrender.com",
+    origin: "http://localhost:3000",
   })
 );
 
@@ -32,8 +32,8 @@ app.post("/checkout", async (req, res) => {
         },
         quantity: item.quantity,
       })),
-      success_url: `https://pizza-store-example.onrender.com/success.html`,
-      cancel_url: `https://pizza-store-example.onrender.com/index.html`,
+      success_url: `http://localhost:3000/success.html`,
+      cancel_url: `http://localhost:3000/index.html`,
     });
     res.json({ url: session.url });
   } catch (e) {
@@ -42,5 +42,5 @@ app.post("/checkout", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Server is running on https://pizza-store-example.onrender.com");
+  console.log("Server is running on http://localhost:3000");
 });
