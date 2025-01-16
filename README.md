@@ -1,6 +1,6 @@
 # eCommerce Example 1a (Express)
 basic store - multi-option product - payment via Stripe <br>
-https://cult-of-pizza.onrender.com/index.html
+https://pizza-store-example.onrender.com/index.html
 
 # To Start: <br>
 * Download zip, open in code editor
