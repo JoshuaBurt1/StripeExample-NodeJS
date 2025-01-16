@@ -13,6 +13,7 @@ app.use(
 
 //DEPLOYMENT TO HOSTING:
 //when deploying to render, all instances of "http://localhost:3000" --> https://pizza-store-example.onrender.com
+//when deploying on a local instance, all instances of "https://pizza-store-example.onrender.com" --> "http://localhost:3000"
 //enter STRIPE_SECRET_KEY in deployment step --> no quotes around secret key
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
